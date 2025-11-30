@@ -1,0 +1,56 @@
+# Supply Chain ML Project Configuration
+
+# Data Configuration
+data:
+  s3_bucket: "ml-supplychain-project"
+  s3_key: "SCMS_Delivery_History_Dataset.csv"
+  database_path: "data/processed/supply_chain.db"
+
+# Processing Configuration
+processing:
+  test_size: 0.2
+  random_state: 42
+  stratify: true
+
+  # Date columns to parse
+  date_columns:
+    - "PQ First Sent to Client Date"
+    - "PO Sent to Vendor Date"
+    - "Scheduled Delivery Date"
+    - "Delivered to Client Date"
+    - "Delivery Recorded Date"
+
+  # Columns to drop (if any)
+  drop_columns:
+    - "Line Item Insurance (USD)"  # Mostly NaN
+
+# Feature Engineering
+features:
+  categorical_encoding: "target"  # target, onehot, label
+  numerical_scaling: "standard"   # standard, minmax, robust
+  handle_missing: "indicator"     # indicator, impute, drop
+
+  # High cardinality columns for target encoding
+  target_encode_columns:
+    - "Vendor"
+    - "Manufacturing Site"
+    - "Country"
+
+# Business Rules
+business:
+  delay_threshold_days: 0  # Days late to classify as delay
+  cost_false_negative: 5000  # Cost of missing a delay
+  cost_false_positive: 500   # Cost of unnecessary intervention
+
+# Model Evaluation
+evaluation:
+  cv_folds: 5
+  scoring_metric: "roc_auc"
+
+  # Metrics to track
+  metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1"
+    - "roc_auc"
