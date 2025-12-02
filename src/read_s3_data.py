@@ -23,7 +23,7 @@ try:
     print(f"Reading {s3_key} from s3://{bucket_name} ...")
     obj = s3.get_object(Bucket=bucket_name, Key=s3_key)
     df = pd.read_csv(obj['Body'])
-    print("Data read successfully!")
+    print("Data read successfully in df!")
     print(df.head())
 except Exception as e:
     print(f"Error reading file from S3: {e}")

@@ -15,5 +15,4 @@ venv/
 
 # ML / large files
 models/
-data/raw/
-
+data/interim/
